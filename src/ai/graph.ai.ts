@@ -1,7 +1,7 @@
 import { HumanMessage } from "@langchain/core/messages";
 import { StateSchema, MessagesValue, StateGraph, START, END, ReducedValue } 
 from "@langchain/langgraph";
-import { mistralModel,cohereModel,geminiModel } from "./models.service.js";
+import { mistralModel,cohereModel,geminiModel } from "./models.ai.js";
 import {createAgent,providerStrategy} from "langchain" ;
 import type { GraphNode } from "@langchain/langgraph";
 import { compile } from "tailwindcss";

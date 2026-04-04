@@ -1,7 +1,7 @@
 import { ChatGoogle, } from "@langchain/google";
 import { ChatMistralAI } from "@langchain/mistralai";
-import config from "../config/config.js";
 import { ChatCohere } from "@langchain/cohere";
+import config from "../config/config.js";
 
 export const geminiModel = new ChatGoogle({
   model:"gemini-flash-latest",
