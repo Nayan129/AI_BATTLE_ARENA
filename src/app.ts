@@ -2,7 +2,7 @@ import express from "express";
 import useGraph from "./ai/graph.ai.js"
 const app = express();
 
-app.get("/health",(req,res)=>{
+app.get("/",(req,res)=>{
   res.status(200).json({
     status:"ok"
   })
