@@ -1,5 +1,5 @@
 import express from "express";
-import useGraph from "./ai/graph.ai.js"
+import runGraph from "./ai/graph.ai.js"
 const app = express();
 
 app.get("/",(req,res)=>{
@@ -8,7 +8,14 @@ app.get("/",(req,res)=>{
   })
 })
 
-app.post("/use-graph",async (req,res)=>{
-  await useGraph("what is the capital of America?")
-})
+app.post("/runGraph", async (req, res) => {
+  try {
+    const result = await runGraph("give me proper interview questions for crack frontend developer interview in 2026 with the asnwers , soltions, and explaination in hinglish.make sure search on internet about mostly ask interview questions in companies");
+    res.json(result);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error");
+  }
+});
 export default app;
+

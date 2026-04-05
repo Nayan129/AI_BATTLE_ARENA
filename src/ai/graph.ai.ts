@@ -1,13 +1,9 @@
-import { HumanMessage } from "@langchain/core/messages";
-import { StateSchema, MessagesValue, StateGraph, START, END, ReducedValue } 
+import { StateGraph, StateSchema, START, END, type GraphNode, type CompiledStateGraph} 
 from "@langchain/langgraph";
-import { mistralModel,cohereModel,geminiModel } from "./models.ai.js";
-import {createAgent,providerStrategy} from "langchain" ;
-import type { GraphNode } from "@langchain/langgraph";
-import { compile } from "tailwindcss";
-import {promise, z} from "zod"
-import { MistralAI } from "@langchain/mistralai";
-import type { TypeOf } from "zod/v3";
+import { mistralModel,geminiModel,cohereModel } from "./models.ai.js";
+import {createAgent,providerStrategy,HumanMessage} from "langchain" ;
+import { z} from "zod"
+
 
 // nodes share data with each other and the format of that data is define in this stateSchema
 
@@ -25,10 +21,12 @@ const state = new StateSchema({
 
 // here both AI model get the problem from user and generate the solution.
 const solutionNode : GraphNode<typeof state> = async (state) => {
+  console.log("Solution node start");
   const [mistralResponse,cohereResponse] = await Promise.all([
     mistralModel.invoke(state.problem),
     cohereModel.invoke(state.problem),
   ])
+  console.log("Solution node done");
 
   return{
     solution_1:mistralResponse.text,
@@ -84,16 +82,18 @@ const judgeNode:GraphNode<typeof state > = async (state) => {
 
 const graph = new StateGraph(state)
       .addNode("solution",solutionNode)
-      .addNode("judge",judgeNode)
+      .addNode("judge_node",judgeNode)
       .addEdge(START,"solution")
-      .addEdge("solution","judge")
-      .addEdge("judge",END)
+      .addEdge("solution","judge_node")
+      .addEdge("judge_node",END)
       .compile()
 
 export default async function runGraph(problem:string) {
+  console.log("Judge node start");
   const result = await graph.invoke({
     problem:problem
   })
+  console.log("Judge node done");
 
   return result
 }

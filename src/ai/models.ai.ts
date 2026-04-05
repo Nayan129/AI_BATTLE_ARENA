@@ -6,7 +6,7 @@ import config from "../config/config.js";
 // assign a gemini model for use as Judge
 export const geminiModel = new ChatGoogle({
   model:"gemini-flash-latest",
-  apiKey:config.GEMINI_API_KEY
+  apiKey:config.GOOGLE_API_KEY
 });
 
 // mistral as First AI response generator
@@ -14,6 +14,7 @@ export const mistralModel = new ChatMistralAI({
 model: "mistral-medium-latest",
 apiKey:config.MISTRAL_API_KEY
 });
+
 
 // cohere as second AI response generator
 export const cohereModel = new ChatCohere({
