@@ -1,21 +1,36 @@
-import express from "express";
+import express from 'express';
 import runGraph from "./ai/graph.ai.js"
-const app = express();
+import cors from "cors"
 
-app.get("/",(req,res)=>{
-  res.status(200).json({
-    status:"ok"
-  })
+const app = express();
+app.use(express.json())
+app.use(cors({
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST"],
+    credentials: true,
+}))
+
+
+app.get('/', async (req, res) => {
+
+    const result = await runGraph("Write an code for Factorial function in js")
+
+    res.json(result)
 })
 
-app.post("/runGraph", async (req, res) => {
-  try {
-    const result = await runGraph("give me proper interview questions for crack frontend developer interview in 2026 with the asnwers , soltions, and explaination in hinglish not hindi english.make sure search on internet about mostly ask interview questions in companies");
-    res.json(result);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Error");
-  }
-});
-export default app;
+app.post("/invoke", async (req, res) => {
 
+    const { input } = req.body
+    const result = await runGraph(input)
+
+    res.status(200).json({
+        message: "Graph executed successfully",
+        success: true,
+        result
+    })
+
+})
+
+
+
+export default app;

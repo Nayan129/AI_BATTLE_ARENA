@@ -1,5 +1,3 @@
-import React from 'react';
-
 export default function UserMessage({ message }) {
   return (
     <div className="flex justify-end my-6">
