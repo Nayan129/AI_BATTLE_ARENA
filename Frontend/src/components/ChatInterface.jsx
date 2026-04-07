@@ -3,17 +3,6 @@ import UserMessage from './UserMessage';
 import ArenaResponse from './ArenaResponse';
 import axios from "axios";
 
-const MOCK_RESPONSE = {
-  solution_1: "Here is a clean Python solution using modern syntax:\n\n```python\ndef fib(n):\n    a, b = 0, 1\n    for _ in range(n):\n        a, b = b, a + b\n    return a\n```\n\nThis approach has O(n) time complexity and O(1) space.",
-  solution_2: "A recursive solution can be elegant but less efficient:\n\n```python\ndef fib(n):\n    if n <= 1:\n        return n\n    return fib(n-1) + fib(n-2)\n```\n\nNote: this has O(2^n) time complexity.",
-  judge: {
-    solution_1_score: 10,
-    solution_2_score: 5,
-    solution_1_reasoning: "Excellent, optimal solution. Space complexity is O(1) which is perfect for this problem.",
-    solution_2_reasoning: "The recursive approach without memoization is extremely slow for large inputs."
-  }
-};
-
 export default function ChatInterface() {
   const [ messages, setMessages ] = useState([]);
   const [ inputValue, setInputValue ] = useState('');
